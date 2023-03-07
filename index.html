@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Shortener</title>
+</head>
+<style>
+  body {
+    min-height: 100vh;
+    background-color: bisque;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  h1 {
+    font-size: 50px;
+  }
+  input {
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  input:focus {
+    outline: none;
+  }
+  button {
+    width: 420px;
+    padding: 10px;
+    border: none;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+</style>
+<body>
+  <h1>URL Shortener</h1>
+  <form>
+    <input type="text" name="url" placeholder="Enter URL to shorten">
+    <button type="submit" onclick="shortenUrl()">Shorten</button>
+  </form>
+  <p id="short-url"></p>
+  <script>
+    function shortenUrl() {
+      const url = document.querySelector('input[name="url"]').value;
+      fetch('/shorten', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          url: url
+        })
+      })
+      .then(response => response.text())
+      .then(shortUrl => {
+        document.querySelector('#short-url').textContent = shortUrl;
+      })
+      .catch(error => console.log(error));
+    }
+  </script>
+</body>
+</html>
